@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>test</title>
+</head>
+
+<body>
+  <script type="module">
+    import { client } from "https://cdn.jsdelivr.net/npm/@gradio/client@latest/dist/index.min.js";
+
+    async function generateImage(prompt) {
+      // const app = await client("hysts/SDXL");
+      // const result = await app.predict("/run", [
+      //   prompt, // string  in 'Prompt' Textbox component
+      //   "Hello!!", // string  in 'Negative prompt' Textbox component
+      //   "Hello!!", // string  in 'Prompt 2' Textbox component
+      //   "Hello!!", // string  in 'Negative prompt 2' Textbox component
+      //   false, // boolean  in 'Use negative prompt' Checkbox component
+      //   false, // boolean  in 'Use prompt 2' Checkbox component
+      //   false, // boolean  in 'Use negative prompt 2' Checkbox component
+      //   Math.floor(Math.random() * 99999999999999), // number (numeric value between 0 and 2147483647) in 'Seed' Slider component
+      //   1024, // number (numeric value between 256 and 1024) in 'Width' Slider component
+      //   1024, // number (numeric value between 256 and 1024) in 'Height' Slider component
+      //   5, // number (numeric value between 1 and 20) in 'Guidance scale for base' Slider component
+      //   5, // number (numeric value between 1 and 20) in 'Guidance scale for refiner' Slider component
+      //   25, // number (numeric value between 10 and 100) in 'Number of inference steps for base' Slider component
+      //   25, // number (numeric value between 10 and 100) in 'Number of inference steps for refiner' Slider component
+      //   false, // boolean  in 'Apply refiner' Checkbox component
+      // ]);
+
+      const app = await client("ByteDance/Hyper-SDXL-1Step-T2I");
+      const result = await app.predict("/process_image", [		
+              1, // number (numeric value between 1 and 8) in 'Number of Images' Slider component		
+              1024, // number  in 'Image Height' Number component		
+              1024, // number  in 'Image Width' Number component		
+              prompt, // string  in 'Prompt' Textbox component		
+        Math.floor(Math.random() * 99999999999999), // number  in 'Seed' Number component
+        ]);
+
+      // const imageUrl = result.data[0].url;
+      console.log(result)
+      const imageUrl = result.data[0][0].image.url;
+      const img = new Image();
+      img.src = imageUrl;
+      img.style.maxWidth = '100vw';
+      img.style.maxHeight = '100vh';
+      document.body.appendChild(img);
+    }
+
+    generateImage('a cute dog');
+  </script>
+</body>
+
+</html>
